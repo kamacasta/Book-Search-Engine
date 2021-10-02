@@ -36,8 +36,27 @@ const resolvers = {
             if(!user) {
                 throw new AuthenticationError("Incorrect credentials");
             }
+
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw new AuthenticationError("Incorrect credentials");
+            }
+            const token = signToken(user);
+            return { token, user };
+        },
+        saveBook: async (parent, { content }, context) => {
+            if (context.user) {
+                const user = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $addtoSet: { saveBooks: content } },
+                    { new: true }
+                );
+                return user;
+            }
             
-        }
+            throw new AuthenticationError("To continue you must be logged in please!");
+        },
     }
 
 }
