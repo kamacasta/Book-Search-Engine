@@ -13,6 +13,30 @@ import { setContext } from "@apollo/client/link/context";
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 
+// graphql api endpoint 
+const httpLink = createHttpLink({
+  uri: "/graphql",
+});
+
+
+const authLink = setContext((_, { headers }) => {
+  // token authentication
+  const token = localStorage.getItem("id_token");
+  // httpLink needs the return so it can read them
+  return {
+    headers: {
+      headers,
+      authorization: token? `Bearer ${token}` : "",
+    },
+  }
+});
+
+const client = new ApolloClient({
+  // client will carry through with authLink middleware before graphql api request
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCaches()
+});
+
 function App() {
   return (
     <Router>
