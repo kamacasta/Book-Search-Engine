@@ -7,7 +7,7 @@ import {
   ApolloClient,
   ApolloProvider,
   createHttpLink,
-  InMemoryCaches,
+  InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import LoginForm from './components/LoginForm';
@@ -34,7 +34,7 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   // client will carry through with authLink middleware before graphql api request
   link: authLink.concat(httpLink),
-  cache: new InMemoryCaches()
+  cache: new InMemoryCache()
 });
 
 function App() {
