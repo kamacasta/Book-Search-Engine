@@ -19,3 +19,4 @@ export const GET_ME = gql`
     }
 }
 `;
+// created file, used keywords given in front end specifications, file completed

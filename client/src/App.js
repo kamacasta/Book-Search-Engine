@@ -20,3 +20,4 @@ function App() {
 }
 
 export default App;
+// added additional requirements mentioned in the front end specifications
