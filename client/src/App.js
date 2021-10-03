@@ -3,6 +3,15 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCaches,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 
 function App() {
   return (
@@ -18,6 +27,7 @@ function App() {
     </Router>
   );
 }
+import { Form } from 'react-bootstrap';
 
 export default App;
 // added additional requirements mentioned in the front end specifications
