@@ -15,12 +15,12 @@ const resolvers = {
             }
             throw new AuthenticationError("Not logged in")
         },
-        // users: async () => {
-        //     return User.find()
-        //     .select('-__v -password')
-        //     .populate('follows')
-        //     .populate('videos');
-        // }
+        users: async () => {
+            return User.find()
+            .select('-__v -password')
+            .populate('follows')
+            .populate('videos');
+        }
     },
 
     Mutation: {
@@ -34,13 +34,13 @@ const resolvers = {
             const user = await User.findOne({ email });
 
             if(!user) {
-                throw new AuthenticationError("Incorrect credentials");
+                throw new AuthenticationError("You have entered the incorrect email or username!");
             }
 
             const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new AuthenticationError("Incorrect credentials");
+                throw new AuthenticationError("You have entered the incorrect password!");
             }
             const token = signToken(user);
             return { token, user };
@@ -55,8 +55,20 @@ const resolvers = {
                 return user;
             }
             
-            throw new AuthenticationError("To continue you must be logged in please!");
+            throw new AuthenticationError("To continue login is required...");
         },
-    }
 
-}
+        removeBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+                // findByIdAndUpdate method
+                const user = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: {savedBooks: { bookId: bookId } } },
+                );
+                return user;
+            }
+            throw new AuthenticationError("You must be logged in to remove books!")
+        },
+    },
+};
+module.exports = resolvers;
