@@ -46,6 +46,8 @@ function App() {
         <Switch>
           <Route exact path='/' component={SearchBooks} />
           <Route exact path='/saved' component={SavedBooks} />
+          <Route exact path='/signup' component={SignupForm}/>
+          <Route exact path='/login' component={LoginForm}/>
           <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
         </Switch>
       </>
@@ -53,7 +55,6 @@ function App() {
     </ApolloProvider>
   );
 }
-import { Form } from 'react-bootstrap';
 
 export default App;
 // added additional requirements mentioned in the front end specifications
